@@ -100,6 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const Text("Test for merge and deploy"),
             const Text(
               'You have pushed the button this many times:',
             ),
