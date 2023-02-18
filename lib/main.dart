@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 Future<void> main() async {
   await Firebase.initializeApp(
@@ -11,110 +12,285 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Accountabuddy',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+        useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      themeMode: ThemeMode.dark,
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  bool mobile = false;
+  @override
+  Widget build(BuildContext context) {
+    MediaQuery.of(context).size.width < 960 ? mobile = true : mobile = false;
+    String backgroundImage =
+        "https://images.unsplash.com/photo-1593132517397-ceb31d77194a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80";
+    return Scaffold(
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(backgroundImage),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.5),
+              BlendMode.darken,
+            ),
+          ),
+        ),
+        child: mobile
+            ? ListView(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white),
+                    ),
+                    child: ValueProposition(),
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.9),
+                      border: const Border(
+                        top: BorderSide(),
+                        bottom: BorderSide(color: Colors.white),
+                        right: BorderSide(color: Colors.white),
+                        left: BorderSide(color: Colors.white),
+                      ),
+                    ),
+                    child: SignUpForm(),
+                  ),
+                ],
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    width: MediaQuery.of(context).size.width * 0.45,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white),
+                    ),
+                    child: ValueProposition(),
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    width: MediaQuery.of(context).size.width * 0.45,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.9),
+                      border: const Border(
+                        top: BorderSide(color: Colors.white),
+                        bottom: BorderSide(color: Colors.white),
+                        right: BorderSide(color: Colors.white),
+                        left: BorderSide(),
+                      ),
+                    ),
+                    child: SignUpForm(),
+                  )
+                ],
+              ),
+      ),
+    );
   }
+}
+
+class ValueProposition extends StatelessWidget {
+  const ValueProposition({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Accountabuddy",
+            style: GoogleFonts.montserrat(
+                textStyle: Theme.of(context).textTheme.displaySmall,
+                color: Colors.white,
+                fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 16),
+          Text(
+            "Accountability in your pocket: Reach your goals with ease",
+            style: GoogleFonts.montserrat(
+                textStyle: Theme.of(context).textTheme.titleMedium,
+                color: Colors.white),
+          ),
+          SizedBox(height: 16),
+          Text(
+            "We will help you achieve your goals by providing a unique accountability system via text messages. With regular check-ins from your buddy, we make it easy to become the version of yourself you want to be.",
+            style: GoogleFonts.cabin(
+              textStyle: Theme.of(context).textTheme.bodyMedium,
+              color: Colors.white,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+          )
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class SignUpForm extends StatefulWidget {
+  const SignUpForm({super.key});
+
+  @override
+  State<SignUpForm> createState() => _SignUpFormState();
+}
+
+class _SignUpFormState extends State<SignUpForm> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Text(
+            "Sign up and get a free Accountabuddy today",
+            style: GoogleFonts.cabin(
+                textStyle: Theme.of(context).textTheme.titleLarge),
+          ),
+          TextField(
+            decoration: InputDecoration(
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
+              filled: true,
+              fillColor: Colors.white,
+              labelText: "Name",
+              border: OutlineInputBorder(),
+            ),
+          ),
+          TextField(
+            decoration: InputDecoration(
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
+              filled: true,
+              fillColor: Colors.white,
+              labelText: "email",
+              border: OutlineInputBorder(),
+            ),
+          ),
+          TextField(
+            decoration: InputDecoration(
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
+              filled: true,
+              fillColor: Colors.white,
+              labelText: "Phone number",
+              border: OutlineInputBorder(),
+            ),
+          ),
+          MyForm(),
+          ElevatedButton(onPressed: () {}, child: Text("Sign Up"))
+        ],
+      ),
+    );
+  }
+}
+
+enum Options { option1, option2, option3 }
+
+class MyForm extends StatefulWidget {
+  @override
+  _MyFormState createState() => _MyFormState();
+}
+
+class _MyFormState extends State<MyForm> {
+  Options _selectedOption = Options.option1;
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'How do you want to be reached:',
+            style: GoogleFonts.cabin(
+                textStyle: Theme.of(context).textTheme.bodyLarge),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Row(
+                children: <Widget>[
+                  Radio<Options>(
+                    value: Options.option1,
+                    groupValue: _selectedOption,
+                    onChanged: (Options? value) {
+                      setState(() {
+                        _selectedOption = value!;
+                      });
+                    },
+                  ),
+                  Text(
+                    'Whatsapp',
+                    style: GoogleFonts.cabin(
+                        textStyle: Theme.of(context).textTheme.bodyMedium),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Radio<Options>(
+                    value: Options.option2,
+                    groupValue: _selectedOption,
+                    onChanged: (Options? value) {
+                      setState(() {
+                        _selectedOption = value!;
+                      });
+                    },
+                  ),
+                  Text(
+                    'Telegram',
+                    style: GoogleFonts.cabin(
+                        textStyle: Theme.of(context).textTheme.bodyMedium),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Radio<Options>(
+                    value: Options.option3,
+                    groupValue: _selectedOption,
+                    onChanged: (Options? value) {
+                      setState(() {
+                        _selectedOption = value!;
+                      });
+                    },
+                  ),
+                  Text(
+                    'Signal',
+                    style: GoogleFonts.cabin(
+                        textStyle: Theme.of(context).textTheme.bodyMedium),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
